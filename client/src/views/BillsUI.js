@@ -3,6 +3,7 @@ import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
 
 import Actions from './Actions.js'
+import { sortData } from '../containers/Bills.js'
 
 const row = (bill) => {
   return (`
@@ -16,11 +17,17 @@ const row = (bill) => {
         ${Actions(bill.fileUrl)}
       </td>
     </tr>
-    `)
-  }
+  `)
+}
 
 const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  // return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  if (data && data.length) {
+    const sortedData = sortData(data)
+    console.log('#######');
+    console.log(sortedData);
+    return sortedData.map(bill => row(bill)).join("")
+  }
 }
 
 export default ({ data: bills, loading, error }) => {

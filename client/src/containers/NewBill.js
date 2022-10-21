@@ -25,20 +25,29 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
 
-    this.store
-      .bills()
-      .create({
-        data: formData,
-        headers: {
-          noContentType: true
-        }
-      })
-      .then(({fileUrl, key}) => {
-        console.log(fileUrl)
-        this.billId = key
-        this.fileUrl = fileUrl
-        this.fileName = fileName
-      }).catch(error => console.error(error))
+    // check for file type
+    if(file.type.includes('png') || file.type.includes('jpg') || file.type.includes('jpeg') || file.type.includes('gif')){
+      this.store
+        .bills()
+        .create({
+          data: formData,
+          headers: {
+            noContentType: true
+          }
+        })
+        .then(({fileUrl, key}) => {
+          console.log(fileUrl)
+          this.billId = key
+          this.fileUrl = fileUrl
+          this.fileName = fileName
+        }).catch(error => console.error(error))
+    } else {	
+      let errorLabel = document.createElement('p')	
+      errorLabel.classList.add('errorLabel')	
+      errorLabel.setAttribute('data-testid', 'errorMessage')	
+      errorLabel.innerText = "Veuillez opter pour un format pris en charge (.png, .jpg, .jpeg ou gif)"	
+      e.target.parentNode.append(errorLabel)	
+    }
   }
   handleSubmit = e => {
     e.preventDefault()
