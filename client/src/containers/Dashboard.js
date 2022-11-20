@@ -176,7 +176,7 @@ export default class {
     }
   }
 
-  // not need to cover this function by tests
+  //! not need to cover this function by tests
   /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
