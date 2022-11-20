@@ -3,7 +3,6 @@ import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
 
 import Actions from './Actions.js'
-import { sortData } from '../containers/Bills.js'
 
 const row = (bill) => {
   return (`
@@ -21,13 +20,16 @@ const row = (bill) => {
 }
 
 const rows = (data) => {
-  // return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
-  if (data && data.length) {
-    const sortedData = sortData(data)
-    console.log('#######');
-    console.log(sortedData);
-    return sortedData.map(bill => row(bill)).join("")
-  }
+  console.log(data);
+  data.sort((a, b) => Date.now(a.date) - Date.now(b.date))
+  return (data && data.length)
+  ? (
+    // data.sort((a, b) => {new Date(b.date) - new Date(a.date)}),
+    data.map(bill => row(bill)).join("")
+  )
+  : (
+    ""
+  )
 }
 
 export default ({ data: bills, loading, error }) => {
@@ -75,7 +77,7 @@ export default ({ data: bills, loading, error }) => {
                 <th>Actions</th>
               </tr>
           </thead>
-          <tbody data-testid="tbody">
+          <tbody data-testid="tbody" id="testtest">
             ${rows(bills)}
           </tbody>
           </table>
