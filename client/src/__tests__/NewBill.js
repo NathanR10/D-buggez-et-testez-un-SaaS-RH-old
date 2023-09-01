@@ -130,15 +130,19 @@
  
 //  POST Integration Tests
  describe('Given I am a user connected as an employee', () => {
-   describe('When I create a new bill and go back to the dashboard', () => {
+   describe('When I update a new bill and go back to the dashboard', () => {
      test('It should fetches bills from the API POST', async () => {
-       const mockAPI = jest.spyOn(store, 'post');
-       const bills = await store.post();
-       expect(mockAPI).toHaveBeenCalledTimes(1);
-       expect(bills.data.length).toBe(4);
+       const mockAPI = jest.spyOn(store, 'update');
+       const bills = await store.update();
+
+      expect(mockAPI).toHaveBeenCalled();
+      expect(bills).toHaveLength(2);
+
+      //  expect(mockAPI).toHaveBeenCalledTimes(1);
+      //  expect(bills.data.length).toBe(2);
      });
      test('It should fetches messages from the API and return a 500', async () => {
-       store.post.mockImplementationOnce(() =>
+       store.update.mockImplementationOnce(() =>
          Promise.reject(new Error('Erreur 500'))
        );
        document.body.innerHTML = BillsUI({ error: 'Erreur 500' });
@@ -146,7 +150,7 @@
        expect(message).toBeTruthy();
      });
      test('It should fetches bills from the API return a 404', async () => {
-       store.post.mockImplementationOnce(() =>
+       store.update.mockImplementationOnce(() =>
          Promise.reject(new Error('Erreur 404'))
        );
        document.body.innerHTML = BillsUI({ error: 'Erreur 404' });

@@ -5,6 +5,7 @@ import LoadingPage from "./LoadingPage.js"
 import Actions from './Actions.js'
 
 const row = (bill) => {
+  // TODO : convert en-US date into FR short
   return (`
     <tr>
       <td>${bill.type}</td>
@@ -20,11 +21,9 @@ const row = (bill) => {
 }
 
 const rows = (data) => {
-  console.log(data);
-  data.sort((a, b) => Date.now(a.date) - Date.now(b.date))
   return (data && data.length)
   ? (
-    // data.sort((a, b) => {new Date(b.date) - new Date(a.date)}),
+    data.sort((a, b) => (new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1)),
     data.map(bill => row(bill)).join("")
   )
   : (

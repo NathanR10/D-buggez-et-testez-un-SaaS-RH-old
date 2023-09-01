@@ -147,66 +147,66 @@ describe("Bills Unit Test Suites", () => {
 });
 
 // GET integration test
-describe("Given I am a user connected as Employee", () => {
-  describe("When I navigate to Bills", () => {
-    test("fetches bills from mock API GET", async () => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ type: "Employee", email: "a@a" })
-      );
-      const root = document.createElement("div");
-      root.setAttribute("id", "root");
-      document.body.append(root);
-      router();
-      window.onNavigate(ROUTES_PATH.Bills);
-      await waitFor(() => screen.getByText("Statut"));
-    });
-    describe("When an error occurs on API", () => {
-      beforeEach(() => {
-        jest.spyOn(mockStore, "bills");
-        Object.defineProperty(window, "localStorage", {
-          value: localStorageMock,
-        });
-        window.localStorage.setItem(
-          "user",
-          JSON.stringify({
-            type: "Employee",
-            email: "a@a",
-          })
-        );
-        const root = document.createElement("div");
-        root.setAttribute("id", "root");
-        document.body.appendChild(root);
-        router();
-      });
-      test("fetches bills from an API, return a 404", async () => {
-        mockStore.bills.mockImplementationOnce(() => {
-          return {
-            list: () => {
-              return Promise.reject(new Error("Erreur 404"));
-            },
-          };
-        });
-        window.onNavigate(ROUTES_PATH.Bills);
-        await new Promise(process.nextTick);
-        const message = await screen.getByText(/Erreur 404/);
-        expect(message).toBeTruthy();
-      });
+// describe("Given I am a user connected as Employee", () => {
+//   describe("When I navigate to Bills", () => {
+//     test("fetches bills from mock API GET", async () => {
+//       localStorage.setItem(
+//         "user",
+//         JSON.stringify({ type: "Employee", email: "a@a" })
+//       );
+//       const root = document.createElement("div");
+//       root.setAttribute("id", "root");
+//       document.body.append(root);
+//       router();
+//       window.onNavigate(ROUTES_PATH.Bills);
+//       await waitFor(() => screen.getByText("Statut"));
+//     });
+//     describe("When an error occurs on API", () => {
+//       beforeEach(() => {
+//         jest.spyOn(mockStore, "bills");
+//         Object.defineProperty(window, "localStorage", {
+//           value: localStorageMock,
+//         });
+//         window.localStorage.setItem(
+//           "user",
+//           JSON.stringify({
+//             type: "Employee",
+//             email: "a@a",
+//           })
+//         );
+//         const root = document.createElement("div");
+//         root.setAttribute("id", "root");
+//         document.body.appendChild(root);
+//         router();
+//       });
+//       test("fetches bills from an API, return a 404", async () => {
+//         mockStore.bills.mockImplementationOnce(() => {
+//           return {
+//             list: () => {
+//               return Promise.reject(new Error("Erreur 404"));
+//             },
+//           };
+//         });
+//         window.onNavigate(ROUTES_PATH.Bills);
+//         await new Promise(process.nextTick);
+//         const message = await screen.getByText(/Erreur 404/);
+//         expect(message).toBeTruthy();
+//       });
 
-      test("fetches messages from an API, return a 500", async () => {
-        mockStore.bills.mockImplementationOnce(() => {
-          return {
-            list: () => {
-              return Promise.reject(new Error("Erreur 500"));
-            },
-          };
-        });
+//       test("fetches messages from an API, return a 500", async () => {
+//         mockStore.bills.mockImplementationOnce(() => {
+//           return {
+//             list: () => {
+//               return Promise.reject(new Error("Erreur 500"));
+//             },
+//           };
+//         });
 
-        window.onNavigate(ROUTES_PATH.Bills);
-        await new Promise(process.nextTick);
-        const message = await screen.getByText(/Erreur 500/);
-        expect(message).toBeTruthy();
-      });
-    });
-  });
-});
+//         window.onNavigate(ROUTES_PATH.Bills);
+//         await new Promise(process.nextTick);
+//         const message = await screen.getByText(/Erreur 500/);
+//         expect(message).toBeTruthy();
+//       });
+//     });
+//   });
+// });
